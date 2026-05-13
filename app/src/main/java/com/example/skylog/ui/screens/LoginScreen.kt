@@ -153,15 +153,51 @@ fun LoginScreen(
 
                 Button(
                     onClick = {
-                        authViewModel.login(
-                            email = email,
-                            password = password
-                        ) {
-                            onLoginClick()
+                        val cleanEmail = email.trim()
+                        val cleanPassword =  password.trim()
+
+                        when {
+                            email.isBlank() -> {
+                                authViewModel.authMessage.value = "Email is required"
+                            }
+
+                            !android.util.Patterns.EMAIL_ADDRESS
+                                .matcher(cleanEmail)
+                                .matches() -> {
+
+                                authViewModel.authMessage.value =
+                                    "Enter a valid email"
+                            }
+
+                            cleanPassword.isBlank() -> {
+                                authViewModel.authMessage.value =
+                                    "Password is required"
+                            }
+
+                            cleanPassword.length < 8 -> {
+                                authViewModel.authMessage.value =
+                                    "Password must be at least 8 characters"
+                            }
+
+                            else -> {
+                                authViewModel.login(
+                                    email = cleanEmail,
+                                    password = cleanPassword
+                                ) {
+                                    onLoginClick()
+                                }
+                            }
                         }
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Login,
+                        contentDescription = null
+                    )
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
                     Text("Login")
                 }
 

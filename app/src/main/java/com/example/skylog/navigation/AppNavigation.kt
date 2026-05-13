@@ -30,5 +30,9 @@ fun AppNavigation() {
                 }
             )
         }
+
+        composable("dashboard"){
+            DashboardScreen()
+        }
     }
 }

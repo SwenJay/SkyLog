@@ -23,7 +23,7 @@ class AuthViewModel : ViewModel() {
             if (result.isSuccess){
                 authMessage.value = "You have been registered successfully"
                 kotlinx.coroutines.delay(1500)
-                //onSuccess()
+                onSuccess()
             }else{
                 authMessage.value =
                     result.exceptionOrNull()?.message ?: "Registration failed"

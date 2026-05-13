@@ -226,8 +226,50 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit) {
                 // ── Register button ──
                 Button(
                     onClick = {
-                        authViewModel.register(email = email, password = password) {
-                            // onRegisterSuccess()
+
+                        when {
+
+                            name.isBlank() -> {
+                                authViewModel.authMessage.value =
+                                    "Full name is required"
+                            }
+
+                            email.isBlank() -> {
+                                authViewModel.authMessage.value =
+                                    "Email is required"
+                            }
+
+                            !android.util.Patterns.EMAIL_ADDRESS
+                                .matcher(email)
+                                .matches() -> {
+
+                                authViewModel.authMessage.value =
+                                    "Enter a valid email address"
+                            }
+
+                            password.isBlank() -> {
+                                authViewModel.authMessage.value =
+                                    "Password is required"
+                            }
+
+                            password.length < 8 -> {
+                                authViewModel.authMessage.value =
+                                    "Password must be at least 8 characters"
+                            }
+
+                            !password.any { it.isDigit() } -> {
+                                authViewModel.authMessage.value =
+                                    "Password must include at least one number"
+                            }
+
+                            else -> {
+                                authViewModel.register(
+                                    email = email,
+                                    password = password
+                                ) {
+                                    onRegisterSuccess()
+                                }
+                            }
                         }
                     },
                     modifier = Modifier
