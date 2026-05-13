@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.*
 import com.example.skylog.ui.screens.LoginScreen
 import com.example.skylog.ui.screens.RegisterScreen
+import com.example.skylog.ui.screens.DashboardScreen
 
 @Composable
 fun AppNavigation() {
@@ -15,7 +16,7 @@ fun AppNavigation() {
         composable("login") {
             LoginScreen(
                 onLoginClick = {
-                    // login later
+                   navController.navigate("dashboard")
                 },
                 onRegisterClick = {
                     navController.navigate("register")
